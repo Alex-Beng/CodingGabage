@@ -1,12 +1,12 @@
 #include "ass1.h"
 
 
-int main(int argc, char const *argv[]) {
+int TestAss1() {
 	int x0=0,y0=0,
-	x1=450,y1=450,color=EGERGB(0, 0xff, 0);		//¶¨Òåµã(50,50)£¬(450,450)ºÍÑÕÉ«color
+	x1=450,y1=450,color=EGERGB(0, 0xff, 0);		//ï¿½ï¿½ï¿½ï¿½ï¿½(50,50)ï¿½ï¿½(450,450)ï¿½ï¿½ï¿½ï¿½É«color
 	int x,y;
-	int gdriver=DETECT, gmode;	//¶¨ÒåÍ¼ÐÎÇý¶¯³ÌÐòºÍÏÔÊ¾Ä£Ê½
-	initgraph(640, 480, 0);	//Í¼ÐÎ·½Ê½³õÊ¼»¯
+	int gdriver=DETECT, gmode;	//ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾Ä£Ê½
+	initgraph(640, 480, 0);	//Í¼ï¿½Î·ï¿½Ê½ï¿½ï¿½Ê¼ï¿½ï¿½
 	cleardevice();
 
 	setbkcolor(WHITE);
@@ -84,15 +84,21 @@ int main(int argc, char const *argv[]) {
 	BreshamLine(x0, y0, x1, y1, EGERGB(0, 0, 0xff), 3, LINE_SHAPE_CHAIN);
 	getch();
 	
-	// cleardevice();					//ÇåÆÁ
+	// cleardevice();					//ï¿½ï¿½ï¿½ï¿½
 	// circle(320, 240, 100);
 	// y=y0;
 	// for(x=x0;x<=x1;x++)
 	//    {
-	// 	  putpixel(x,y,color);		//ÓÃcoloÑÕÉ«»æÖÆµã(x,y)
+	// 	  putpixel(x,y,color);		//ï¿½ï¿½coloï¿½ï¿½É«ï¿½ï¿½ï¿½Æµï¿½(x,y)
 	// 	  y=y+1;
 	//    }
-	getch();						//ÈÃ»­ÃæÍ£×¡, µÈ°´Ò»ÏÂ¼üÅÌÔÙ¼ÌÐø
-	closegraph(); 					//¹Ø±ÕÍ¼ÐÎ·½Ê½
+	getch();						//ï¿½Ã»ï¿½ï¿½ï¿½Í£×¡, ï¿½È°ï¿½Ò»ï¿½Â¼ï¿½ï¿½ï¿½ï¿½Ù¼ï¿½ï¿½ï¿½
+	closegraph(); 					//ï¿½Ø±ï¿½Í¼ï¿½Î·ï¿½Ê½
+	return 0;
+}
+
+
+int main(int argc, char const *argv[]) {
+	TestAss1();
 	return 0;
 }
