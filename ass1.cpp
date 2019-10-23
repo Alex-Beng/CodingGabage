@@ -15,6 +15,32 @@ inline void _LineBrush(int x, int y, int w, int color, int flag) {
     }
 }
 
+void _VetiLine(int x0, int y0, int x1, int y1, int color, int w, int shape) {
+    if (y0 > y1) {
+		swap(x0, x1);
+		swap(y0, y1);
+	}
+
+    for (int y=y0; y<=y1; y++) {
+        if (shape == LINE_SHAPE_NONE) {
+            _LineBrush(x0, y, w, color, LINE_LI_HORI);
+        }
+        else if (shape == LINE_SHAPE_DOT) {
+            if ( ((y-y0)/32)%2 == 0 ) {
+                _LineBrush(x0, y, w, color, LINE_LI_HORI);
+            }
+        }
+        else if (shape == LINE_SHAPE_CHAIN) {
+            if ( ((y-y0)/32)%2 == 0 ) {
+                _LineBrush(x0, y, w, color, LINE_LI_HORI);
+            }
+            else if ( (y-y0)%32 > 32/4 && (y-y0)%32 < 3*32/4 ){
+                _LineBrush(x0, y, w, color, LINE_LI_HORI);
+            }
+        }
+	}
+
+}
 
 // 只做abs(k) < 1的线
 void _DDALine(int x0, int y0, int x1, int y1, 
@@ -63,10 +89,7 @@ void DDALine(int x0, int y0, int x1, int y1, int color, int w=1, int shape=LINE_
 
 	// 斜率不存在特判
 	if (dx == 0) {
-		int x = x0;
-		for (int y=min(y0, y1); y<=max(y0, y1); y++) {
-            _LineBrush(x, y, w, color, LINE_LI_HORI);
-		}
+        _VetiLine(x0, y0, x1, y1, color, w, shape);
 		return ;
 	}
 
@@ -102,6 +125,13 @@ void DDALine(int x0, int y0, int x1, int y1, int color, int w=1, int shape=LINE_
 // 只做0 < k < 1 的线
 void _MidPntLine(int x0, int y0, int x1, int y1, 
 				int* xs, int* ys, int shape) {
+    float dx = x1-x0;
+	float dy = y1-y0;
+	float k = dy/dx;
+
+    float cos = dx/sqrt(dx*dx + dy*dy);
+    int margin = 32*cos;
+    
 	int a, b, d, delta_1, delta_2, x, y;
 	a = y0-y1;
 	b = x1-x0;
@@ -126,8 +156,27 @@ void _MidPntLine(int x0, int y0, int x1, int y1,
 			x++;
 			d += delta_1;
 		}
-		xs[x-x0] = x;
-		ys[x-x0] = y;
+
+		if (shape == LINE_SHAPE_NONE) {
+            xs[x-x0] = x;
+            ys[x-x0] = int(y+0.5);
+        }
+        else if (shape == LINE_SHAPE_DOT) {
+            if ( ((x-x0)/margin)%2 == 0 ) {
+                xs[x-x0] = x;
+                ys[x-x0] = int(y+0.5);
+            }
+        }
+        else if (shape == LINE_SHAPE_CHAIN) {
+            if ( ((x-x0)/margin)%2 == 0 ) {
+                xs[x-x0] = x;
+                ys[x-x0] = int(y+0.5);
+            }
+            else if ( (x-x0)%margin > margin/4 && (x-x0)%margin < 3*margin/4 ){
+                xs[x-x0] = x;
+                ys[x-x0] = int(y+0.5);
+            }
+        }
 	}
 }
 
@@ -141,10 +190,7 @@ void MidPntLine(int x0, int y0, int x1, int y1, int color, int w=1, int shape=LI
 	int dy = y1-y0;
 
 	if (dx == 0) {
-		int x = x0;
-		for (int y=min(y0, y1); y<=max(y0, y1); y++) {
-			_LineBrush(x, y, w, color, LINE_LI_HORI);
-		}
+        _VetiLine(x0, y0, x1, y1, color, w, shape);
 		return ;
 	}
 
@@ -210,12 +256,34 @@ void _BreshamLine(int x0, int y0, int x1, int y1,
 	int x, y, dx, dy, e;
 	dx = x1 - x0;
 	dy = y1 - y0;
+
+    float cos = 1.0*dx/sqrt(1.0*dx*dx + dy*dy);
+    int margin = 32*cos;
+
 	e = -dx;
 	x = x0;
 	y = y0;
 	for (int i=0; i<=dx; i++) {
-		xs[x-x0] = x;
-		ys[x-x0] = y;
+		if (shape == LINE_SHAPE_NONE) {
+            xs[x-x0] = x;
+            ys[x-x0] = int(y+0.5);
+        }
+        else if (shape == LINE_SHAPE_DOT) {
+            if ( ((x-x0)/margin)%2 == 0 ) {
+                xs[x-x0] = x;
+                ys[x-x0] = int(y+0.5);
+            }
+        }
+        else if (shape == LINE_SHAPE_CHAIN) {
+            if ( ((x-x0)/margin)%2 == 0 ) {
+                xs[x-x0] = x;
+                ys[x-x0] = int(y+0.5);
+            }
+            else if ( (x-x0)%margin > margin/4 && (x-x0)%margin < 3*margin/4 ){
+                xs[x-x0] = x;
+                ys[x-x0] = int(y+0.5);
+            }
+        }
 
 		x++;
 		e += 2*dy;
@@ -236,10 +304,7 @@ void BreshamLine(int x0, int y0, int x1, int y1, int color, int w=1, int shape=L
 	int dy = y1-y0;
 
 	if (dx == 0) {
-		int x = x0;
-		for (int y=min(y0, y1); y<=max(y0, y1); y++) {
-			_LineBrush(x, y, w, color, LINE_LI_HORI);
-		}
+        _VetiLine(x0, y0, x1, y1, color, w, shape);
 		return ;
 	}
 

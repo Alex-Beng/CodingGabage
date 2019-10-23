@@ -32,7 +32,7 @@ int main(int argc, char const *argv[]) {
 
 	x0=50,y0=400,
 	x1=500,y1=50;
-	DDALine(x0, y0, x1, y1, color, 1, LINE_SHAPE_DOT);
+	DDALine(x0, y0, x1, y1, color, 1, LINE_SHAPE_NONE);
 	getch();
 	MidPntLine(x0, y0, x1, y1, EGERGB(0xff, 0, 0), 2, LINE_SHAPE_DOT);
 	getch();
@@ -41,7 +41,7 @@ int main(int argc, char const *argv[]) {
 
 	x0=50,y0=50,
 	x1=300,y1=200;
-	DDALine(x0, y0, x1, y1, color, 1, LINE_SHAPE_CHAIN);
+	DDALine(x0, y0, x1, y1, color, 1, LINE_SHAPE_NONE);
 	getch();
 	MidPntLine(x0, y0, x1, y1, EGERGB(0xff, 0, 0), 2, LINE_SHAPE_DOT);
 	getch();

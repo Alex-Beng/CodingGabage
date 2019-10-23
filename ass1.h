@@ -12,6 +12,8 @@ enum {LINE_SHAPE_NONE, LINE_SHAPE_DOT, LINE_SHAPE_CHAIN};
 
 inline void _LineBrush(int x, int y, int w, int color, int flag);
 
+void _VetiLine(int x0, int y0, int x1, int y1, int color, int w, int shape);
+
 // 三种画线方法
 void _DDALine(int x0, int y0, int x1, int y1, 
 				int* xs, int* ys, int shape);
