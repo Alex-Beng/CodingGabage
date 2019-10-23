@@ -22,66 +22,66 @@ int main(int argc, char const *argv[]) {
 	BreshamCircle(100, 80, 50, EGERGB(0xff, 0, 0));
 
 
-	DDALine(x0, y0, x1, y1, color, 1);
+	DDALine(x0, y0, x1, y1, color, 1, LINE_SHAPE_NONE);
 	getch();
-	MidPntLine(x0, y0, x1, y1, EGERGB(0xff, 0, 0), 2);
+	MidPntLine(x0, y0, x1, y1, EGERGB(0xff, 0, 0), 2, LINE_SHAPE_DOT);
 	getch();
-	BreshamLine(x0, y0, x1, y1, EGERGB(0, 0, 0xff), 3);
+	BreshamLine(x0, y0, x1, y1, EGERGB(0, 0, 0xff), 3, LINE_SHAPE_CHAIN);
 	getch();
 
 
 	x0=50,y0=400,
 	x1=500,y1=50;
-	DDALine(x0, y0, x1, y1, color, 1);
+	DDALine(x0, y0, x1, y1, color, 1, LINE_SHAPE_DOT);
 	getch();
-	MidPntLine(x0, y0, x1, y1, EGERGB(0xff, 0, 0), 2);
+	MidPntLine(x0, y0, x1, y1, EGERGB(0xff, 0, 0), 2, LINE_SHAPE_DOT);
 	getch();
-	BreshamLine(x0, y0, x1, y1, EGERGB(0, 0, 0xff), 3);
+	BreshamLine(x0, y0, x1, y1, EGERGB(0, 0, 0xff), 3, LINE_SHAPE_CHAIN);
 	getch();
 
 	x0=50,y0=50,
 	x1=300,y1=200;
-	DDALine(x0, y0, x1, y1, color, 1);
+	DDALine(x0, y0, x1, y1, color, 1, LINE_SHAPE_CHAIN);
 	getch();
-	MidPntLine(x0, y0, x1, y1, EGERGB(0xff, 0, 0), 2);
+	MidPntLine(x0, y0, x1, y1, EGERGB(0xff, 0, 0), 2, LINE_SHAPE_DOT);
 	getch();
-	BreshamLine(x0, y0, x1, y1, EGERGB(0, 0, 0xff), 3);
+	BreshamLine(x0, y0, x1, y1, EGERGB(0, 0, 0xff), 3, LINE_SHAPE_CHAIN);
 	getch();
 
 	x0=50,y0=50,
 	x1=300,y1=400;
-	DDALine(x0, y0, x1, y1, color, 1);
+	DDALine(x0, y0, x1, y1, color, 1, LINE_SHAPE_NONE);
 	getch();
-	MidPntLine(x0, y0, x1, y1, EGERGB(0xff, 0, 0), 2);
+	MidPntLine(x0, y0, x1, y1, EGERGB(0xff, 0, 0), 2, LINE_SHAPE_DOT);
 	getch();
-	BreshamLine(x0, y0, x1, y1, EGERGB(0, 0, 0xff), 3);
+	BreshamLine(x0, y0, x1, y1, EGERGB(0, 0, 0xff), 3, LINE_SHAPE_CHAIN);
 	getch();
 
 	x0=200,y0=50,
 	x1=200,y1=400;
-	DDALine(x0, y0, x1, y1, color, 1);
+	DDALine(x0, y0, x1, y1, color, 1, LINE_SHAPE_NONE);
 	getch();
-	MidPntLine(x0, y0, x1, y1, EGERGB(0xff, 0, 0), 2);
+	MidPntLine(x0, y0, x1, y1, EGERGB(0xff, 0, 0), 2, LINE_SHAPE_DOT);
 	getch();
-	BreshamLine(x0, y0, x1, y1, EGERGB(0, 0, 0xff), 3);
+	BreshamLine(x0, y0, x1, y1, EGERGB(0, 0, 0xff), 3, LINE_SHAPE_CHAIN);
 	getch();
 
 	x0=200,y0=500,
 	x1=100,y1=200;
-	DDALine(x0, y0, x1, y1, color, 1);
+	DDALine(x0, y0, x1, y1, color, 1, LINE_SHAPE_NONE);
 	getch();
-	MidPntLine(x0, y0, x1, y1, EGERGB(0xff, 0, 0), 2);
+	MidPntLine(x0, y0, x1, y1, EGERGB(0xff, 0, 0), 2, LINE_SHAPE_DOT);
 	getch();
-	BreshamLine(x0, y0, x1, y1, EGERGB(0, 0, 0xff), 3);
+	BreshamLine(x0, y0, x1, y1, EGERGB(0, 0, 0xff), 3, LINE_SHAPE_CHAIN);
 	getch();
 
 	x0=300,y0=200,
 	x1=50,y1=50;
-	DDALine(x0, y0, x1, y1, color, 1);
+	DDALine(x0, y0, x1, y1, color, 1, LINE_SHAPE_NONE);
 	getch();
-	MidPntLine(x0, y0, x1, y1, EGERGB(0xff, 0, 0), 2);
+	MidPntLine(x0, y0, x1, y1, EGERGB(0xff, 0, 0), 2, LINE_SHAPE_DOT);
 	getch();
-	BreshamLine(x0, y0, x1, y1, EGERGB(0, 0, 0xff), 3);
+	BreshamLine(x0, y0, x1, y1, EGERGB(0, 0, 0xff), 3, LINE_SHAPE_CHAIN);
 	getch();
 	
 	// cleardevice();					//«Â∆¡

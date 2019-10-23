@@ -1,11 +1,7 @@
 #include "ass1.h"
 
-
 inline void _LineBrush(int x, int y, int w, int color, int flag) {
-    if (flag == LINE_NONE) {
-        putpixel(x, y, color);
-    }
-    else if (flag == LINE_LI_VERI) {
+    if (flag == LINE_LI_VERI) {
         int r_w = w/2 + 1;
         for (int t=y-w/2; t<y+r_w; t++) {
             putpixel(x, t, color);
@@ -22,19 +18,41 @@ inline void _LineBrush(int x, int y, int w, int color, int flag) {
 
 // 只做abs(k) < 1的线
 void _DDALine(int x0, int y0, int x1, int y1, 
-				int* xs, int* ys) {
+				int* xs, int* ys, int shape) {
 	float dx = x1-x0;
 	float dy = y1-y0;
 	float k = dy/dx;
+
+    float cos = dx/sqrt(dx*dx + dy*dy);
+    int margin = 32*cos;
+
 	float y=y0;
 	for (int x=x0; x<=x1; x++) {
-		xs[x-x0] = x;
-		ys[x-x0] = int(y+0.5);
+        if (shape == LINE_SHAPE_NONE) {
+            xs[x-x0] = x;
+            ys[x-x0] = int(y+0.5);
+        }
+        else if (shape == LINE_SHAPE_DOT) {
+            if ( ((x-x0)/margin)%2 == 0 ) {
+                xs[x-x0] = x;
+                ys[x-x0] = int(y+0.5);
+            }
+        }
+        else if (shape == LINE_SHAPE_CHAIN) {
+            if ( ((x-x0)/margin)%2 == 0 ) {
+                xs[x-x0] = x;
+                ys[x-x0] = int(y+0.5);
+            }
+            else if ( (x-x0)%margin > margin/4 && (x-x0)%margin < 3*margin/4 ){
+                xs[x-x0] = x;
+                ys[x-x0] = int(y+0.5);
+            }
+        }
 		y += k;
 	}
 }
 
-void DDALine(int x0, int y0, int x1, int y1, int color, int w=1) {
+void DDALine(int x0, int y0, int x1, int y1, int color, int w=1, int shape=LINE_SHAPE_NONE) {
 	if (x0 > x1) {
 		swap(x0, x1);
 		swap(y0, y1);
@@ -64,7 +82,7 @@ void DDALine(int x0, int y0, int x1, int y1, int color, int w=1) {
 		dx = abs(x0-x1);
 		xs = new int[dx+1];
 		ys = new int[dx+1];
-		_DDALine(x0, y0, x1, y1, xs, ys);
+		_DDALine(x0, y0, x1, y1, xs, ys, shape);
 		for (int i=0; i<=dx; i++) {
             _LineBrush(ys[i], xs[i], w, color, LINE_LI_HORI);
 		}
@@ -73,7 +91,7 @@ void DDALine(int x0, int y0, int x1, int y1, int color, int w=1) {
 		dx = abs(x0-x1);
 		xs = new int[dx+1];
 		ys = new int[dx+1];
-		_DDALine(x0, y0, x1, y1, xs, ys);
+		_DDALine(x0, y0, x1, y1, xs, ys, shape);
 		for (int i=0; i<=dx; i++) {
             _LineBrush(xs[i], ys[i], w, color, LINE_LI_VERI);
 		}
@@ -83,7 +101,7 @@ void DDALine(int x0, int y0, int x1, int y1, int color, int w=1) {
 
 // 只做0 < k < 1 的线
 void _MidPntLine(int x0, int y0, int x1, int y1, 
-				int* xs, int* ys) {
+				int* xs, int* ys, int shape) {
 	int a, b, d, delta_1, delta_2, x, y;
 	a = y0-y1;
 	b = x1-x0;
@@ -113,7 +131,7 @@ void _MidPntLine(int x0, int y0, int x1, int y1,
 	}
 }
 
-void MidPntLine(int x0, int y0, int x1, int y1, int color, int w=1) {
+void MidPntLine(int x0, int y0, int x1, int y1, int color, int w=1, int shape=LINE_SHAPE_NONE) {
 	if (x0 > x1) {
 		swap(x0, x1);
 		swap(y0, y1);
@@ -138,7 +156,7 @@ void MidPntLine(int x0, int y0, int x1, int y1, int color, int w=1) {
 	if (0<=k && k<=1) {
 		xs = new int[dx+1];
 		ys = new int[dx+1];
-		_MidPntLine(x0, y0, x1, y1, xs, ys);
+		_MidPntLine(x0, y0, x1, y1, xs, ys, shape);
 	}
 	else if (-1<=k && k<0) {
 		y0 = -y0;
@@ -146,7 +164,7 @@ void MidPntLine(int x0, int y0, int x1, int y1, int color, int w=1) {
 
 		xs = new int[dx+1];
 		ys = new int[dx+1];
-		_MidPntLine(x0, y0, x1, y1, xs, ys);
+		_MidPntLine(x0, y0, x1, y1, xs, ys, shape);
 		for (int i=0; i<=dx; i++) {
 			_LineBrush(xs[i], -ys[i], w, color, LINE_LI_HORI);
 		}
@@ -159,7 +177,7 @@ void MidPntLine(int x0, int y0, int x1, int y1, int color, int w=1) {
 		dx = abs(x0-x1);
 		xs = new int[dx+1];
 		ys = new int[dx+1];
-		_MidPntLine(x0, y0, x1, y1, xs, ys);
+		_MidPntLine(x0, y0, x1, y1, xs, ys, shape);
 		for (int i=0; i<=dx; i++) {
 			_LineBrush(ys[i], xs[i], w, color, LINE_LI_VERI);
 		}
@@ -174,7 +192,7 @@ void MidPntLine(int x0, int y0, int x1, int y1, int color, int w=1) {
 		dx = abs(x0-x1);
 		xs = new int[dx+1];
 		ys = new int[dx+1];
-		_MidPntLine(x0, y0, x1, y1, xs, ys);
+		_MidPntLine(x0, y0, x1, y1, xs, ys, shape);
 		for (int i=0; i<=dx; i++) {
 			_LineBrush(-ys[i], xs[i], w, color, LINE_LI_HORI);
 		}
@@ -188,7 +206,7 @@ void MidPntLine(int x0, int y0, int x1, int y1, int color, int w=1) {
 
 // 只做0 < k < 1 的线
 void _BreshamLine(int x0, int y0, int x1, int y1, 
-				int* xs, int* ys) {
+				int* xs, int* ys, int shape) {
 	int x, y, dx, dy, e;
 	dx = x1 - x0;
 	dy = y1 - y0;
@@ -208,7 +226,7 @@ void _BreshamLine(int x0, int y0, int x1, int y1,
 	}
 }
 
-void BreshamLine(int x0, int y0, int x1, int y1, int color, int w=1) {
+void BreshamLine(int x0, int y0, int x1, int y1, int color, int w=1, int shape=LINE_SHAPE_NONE) {
 	if (x0 > x1) {
 		swap(x0, x1);
 		swap(y0, y1);
@@ -233,7 +251,7 @@ void BreshamLine(int x0, int y0, int x1, int y1, int color, int w=1) {
 	if (0<=k && k<=1) {
 		xs = new int[dx+1];
 		ys = new int[dx+1];
-		_BreshamLine(x0, y0, x1, y1, xs, ys);
+		_BreshamLine(x0, y0, x1, y1, xs, ys, shape);
 		for (int i=0; i<=dx; i++) {
 			_LineBrush(xs[i], ys[i], w, color, LINE_LI_HORI);
 		}
@@ -244,7 +262,7 @@ void BreshamLine(int x0, int y0, int x1, int y1, int color, int w=1) {
 
 		xs = new int[dx+1];
 		ys = new int[dx+1];
-		_BreshamLine(x0, y0, x1, y1, xs, ys);
+		_BreshamLine(x0, y0, x1, y1, xs, ys, shape);
 		for (int i=0; i<=dx; i++) {
 			_LineBrush(xs[i], -ys[i], w, color, LINE_LI_HORI);
 		}
@@ -257,7 +275,7 @@ void BreshamLine(int x0, int y0, int x1, int y1, int color, int w=1) {
 		dx = abs(x0-x1);
 		xs = new int[dx+1];
 		ys = new int[dx+1];
-		_BreshamLine(x0, y0, x1, y1, xs, ys);
+		_BreshamLine(x0, y0, x1, y1, xs, ys, shape);
 		for (int i=0; i<=dx; i++) {
 			_LineBrush(ys[i], xs[i], w, color, LINE_LI_VERI);
 		}
@@ -272,7 +290,7 @@ void BreshamLine(int x0, int y0, int x1, int y1, int color, int w=1) {
 		dx = abs(x0-x1);
 		xs = new int[dx+1];
 		ys = new int[dx+1];
-		_BreshamLine(x0, y0, x1, y1, xs, ys);
+		_BreshamLine(x0, y0, x1, y1, xs, ys, shape);
 		for (int i=0; i<=dx; i++) {
 			_LineBrush(-ys[i], xs[i], w, color, LINE_LI_VERI);
 		}
