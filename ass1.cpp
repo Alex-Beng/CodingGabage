@@ -1,5 +1,25 @@
 #include "ass1.h"
 
+
+inline void _LineBrush(int x, int y, int w, int color, int flag) {
+    if (flag == LINE_NONE) {
+        putpixel(x, y, color);
+    }
+    else if (flag == LINE_LI_VERI) {
+        int r_w = w/2 + 1;
+        for (int t=y-w/2; t<y+r_w; t++) {
+            putpixel(x, t, color);
+        }
+    }
+    else if (flag == LINE_LI_HORI) {
+        int r_w = w/2 + 1;
+        for (int t=x-w/2; t<x+r_w; t++) {
+            putpixel(t, y, color);
+        }
+    }
+}
+
+
 // 只做abs(k) < 1的线
 void _DDALine(int x0, int y0, int x1, int y1, 
 				int* xs, int* ys) {
@@ -14,7 +34,7 @@ void _DDALine(int x0, int y0, int x1, int y1,
 	}
 }
 
-void DDALine(int x0, int y0, int x1, int y1, int color) {
+void DDALine(int x0, int y0, int x1, int y1, int color, int w=1) {
 	if (x0 > x1) {
 		swap(x0, x1);
 		swap(y0, y1);
@@ -27,7 +47,7 @@ void DDALine(int x0, int y0, int x1, int y1, int color) {
 	if (dx == 0) {
 		int x = x0;
 		for (int y=min(y0, y1); y<=max(y0, y1); y++) {
-			putpixel(x, y, color);
+            _LineBrush(x, y, w, color, LINE_LI_HORI);
 		}
 		return ;
 	}
@@ -46,7 +66,7 @@ void DDALine(int x0, int y0, int x1, int y1, int color) {
 		ys = new int[dx+1];
 		_DDALine(x0, y0, x1, y1, xs, ys);
 		for (int i=0; i<=dx; i++) {
-			putpixel(ys[i], xs[i], color);
+            _LineBrush(ys[i], xs[i], w, color, LINE_LI_HORI);
 		}
 	}
 	else {
@@ -55,7 +75,7 @@ void DDALine(int x0, int y0, int x1, int y1, int color) {
 		ys = new int[dx+1];
 		_DDALine(x0, y0, x1, y1, xs, ys);
 		for (int i=0; i<=dx; i++) {
-			putpixel(xs[i], ys[i], color);
+            _LineBrush(xs[i], ys[i], w, color, LINE_LI_VERI);
 		}
 	}
 	return ;
@@ -93,7 +113,7 @@ void _MidPntLine(int x0, int y0, int x1, int y1,
 	}
 }
 
-void MidPntLine(int x0, int y0, int x1, int y1, int color) {
+void MidPntLine(int x0, int y0, int x1, int y1, int color, int w=1) {
 	if (x0 > x1) {
 		swap(x0, x1);
 		swap(y0, y1);
@@ -105,7 +125,7 @@ void MidPntLine(int x0, int y0, int x1, int y1, int color) {
 	if (dx == 0) {
 		int x = x0;
 		for (int y=min(y0, y1); y<=max(y0, y1); y++) {
-			putpixel(x, y, color);
+			_LineBrush(x, y, w, color, LINE_LI_HORI);
 		}
 		return ;
 	}
@@ -128,7 +148,7 @@ void MidPntLine(int x0, int y0, int x1, int y1, int color) {
 		ys = new int[dx+1];
 		_MidPntLine(x0, y0, x1, y1, xs, ys);
 		for (int i=0; i<=dx; i++) {
-			putpixel(xs[i], -ys[i], color);
+			_LineBrush(xs[i], -ys[i], w, color, LINE_LI_HORI);
 		}
 		return ;
 	}
@@ -141,7 +161,7 @@ void MidPntLine(int x0, int y0, int x1, int y1, int color) {
 		ys = new int[dx+1];
 		_MidPntLine(x0, y0, x1, y1, xs, ys);
 		for (int i=0; i<=dx; i++) {
-			putpixel(ys[i], xs[i], color);
+			_LineBrush(ys[i], xs[i], w, color, LINE_LI_VERI);
 		}
 		return ;
 	}
@@ -156,13 +176,13 @@ void MidPntLine(int x0, int y0, int x1, int y1, int color) {
 		ys = new int[dx+1];
 		_MidPntLine(x0, y0, x1, y1, xs, ys);
 		for (int i=0; i<=dx; i++) {
-			putpixel(-ys[i], xs[i], color);
+			_LineBrush(-ys[i], xs[i], w, color, LINE_LI_HORI);
 		}
 		return ;
 	}
 
 	for (int i=0; i<=dx; i++) {
-		putpixel(xs[i], ys[i], color);
+		_LineBrush(xs[i], ys[i], w, color, LINE_LI_HORI);
 	}
 }
 
@@ -188,7 +208,7 @@ void _BreshamLine(int x0, int y0, int x1, int y1,
 	}
 }
 
-void BreshamLine(int x0, int y0, int x1, int y1, int color) {
+void BreshamLine(int x0, int y0, int x1, int y1, int color, int w=1) {
 	if (x0 > x1) {
 		swap(x0, x1);
 		swap(y0, y1);
@@ -200,7 +220,7 @@ void BreshamLine(int x0, int y0, int x1, int y1, int color) {
 	if (dx == 0) {
 		int x = x0;
 		for (int y=min(y0, y1); y<=max(y0, y1); y++) {
-			putpixel(x, y, color);
+			_LineBrush(x, y, w, color, LINE_LI_HORI);
 		}
 		return ;
 	}
@@ -215,7 +235,7 @@ void BreshamLine(int x0, int y0, int x1, int y1, int color) {
 		ys = new int[dx+1];
 		_BreshamLine(x0, y0, x1, y1, xs, ys);
 		for (int i=0; i<=dx; i++) {
-			putpixel(xs[i], ys[i], color);
+			_LineBrush(xs[i], ys[i], w, color, LINE_LI_HORI);
 		}
 	}
 	else if (-1<=k && k<0) {
@@ -226,7 +246,7 @@ void BreshamLine(int x0, int y0, int x1, int y1, int color) {
 		ys = new int[dx+1];
 		_BreshamLine(x0, y0, x1, y1, xs, ys);
 		for (int i=0; i<=dx; i++) {
-			putpixel(xs[i], -ys[i], color);
+			_LineBrush(xs[i], -ys[i], w, color, LINE_LI_HORI);
 		}
 		return ;
 	}
@@ -239,7 +259,7 @@ void BreshamLine(int x0, int y0, int x1, int y1, int color) {
 		ys = new int[dx+1];
 		_BreshamLine(x0, y0, x1, y1, xs, ys);
 		for (int i=0; i<=dx; i++) {
-			putpixel(ys[i], xs[i], color);
+			_LineBrush(ys[i], xs[i], w, color, LINE_LI_VERI);
 		}
 		return ;
 	}
@@ -254,7 +274,7 @@ void BreshamLine(int x0, int y0, int x1, int y1, int color) {
 		ys = new int[dx+1];
 		_BreshamLine(x0, y0, x1, y1, xs, ys);
 		for (int i=0; i<=dx; i++) {
-			putpixel(-ys[i], xs[i], color);
+			_LineBrush(-ys[i], xs[i], w, color, LINE_LI_VERI);
 		}
 		return ;
 	}
@@ -275,6 +295,8 @@ inline void _DrawCircle(int x0, int y0, int x, int y, int color) {
 	putpixel(x0-x, y0-y, color);
 	putpixel(x0-y, y0-x, color);
 }
+
+
 
 void MidPntCircle(int x0, int y0, int r, int color) {
 	int x, y, delta_x, delta_y, d;
@@ -349,3 +371,4 @@ void BreshamCircle(int x0, int y0, int r, int color) {
 		}
 	}
 }
+
