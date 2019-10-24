@@ -1,5 +1,6 @@
 #include "ass1.h"
 #include "ass2.h"
+#include "ass3.h"
 
 int TestAss1() {
 	int x0=0,y0=0,
@@ -137,9 +138,53 @@ int TestAss2() {
 	return 0;
 }
 
+int TestAss3() {
+	initgraph(640, 480, 0);	
+	cleardevice();
+	setbkcolor(WHITE);
+
+	float Xcoeff[7] = {20, 60, 100, 300, 340, 380,};
+	float Ycoeff[7] = {250, 200, 150, 100, 150, 200, 250,};
+	float Xpoints[2333];
+	float Ypoints[2333];
+	int degree = 3;
+	int n = 700;
+	bez_to_points(degree, n, Xcoeff, Xpoints);
+	bez_to_points(degree, n, Ycoeff, Ypoints);
+
+	setcolor(EGERGB(0, 0xff, 0));
+	for (int i=0; i<n; i++) {
+		if (i>0) {
+			line(Xpoints[i - 1], Ypoints[i - 1], Xpoints[i], Ypoints[i]);
+		}
+	}
+	getch();
+
+	int dense = 200;
+	n = 7;
+	degree = 3;
+	int L = n-degree;
+	float knot[16] = {0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 12, 12};
+
+	bsp1_to_points(degree, L, Xcoeff, knot, dense, Xpoints);
+	bsp1_to_points(degree, L, Ycoeff, knot, dense, Ypoints);
+
+	setcolor(EGERGB(0, 0, 0xff));
+	for (int i=0; i<L*dense; i++) {
+		if (i>0) {
+			line(Xpoints[i - 1], Ypoints[i - 1], Xpoints[i], Ypoints[i]);
+		}
+	}
+
+	getch();
+	closegraph(); 
+	return 0;
+}
+
 int main(int argc, char const *argv[]) {
 	// cout<<hex<<EGERGBA(0xff, 0xff, 0xff, 0);
 	// TestAss1();
-	TestAss2();
+	// TestAss2();
+	TestAss3();
 	return 0;
 }
