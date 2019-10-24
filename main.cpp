@@ -1,6 +1,7 @@
 #include "ass1.h"
 #include "ass2.h"
 #include "ass3.h"
+#include "ass4.h"
 
 int TestAss1() {
 	int x0=0,y0=0,
@@ -185,6 +186,7 @@ int main(int argc, char const *argv[]) {
 	// cout<<hex<<EGERGBA(0xff, 0xff, 0xff, 0);
 	// TestAss1();
 	// TestAss2();
-	TestAss3();
+	// TestAss3();
+	TestAss4();
 	return 0;
 }

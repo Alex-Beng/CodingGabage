@@ -1,6 +1,11 @@
 #ifndef ASS3_H
 #define ASS3_H
 
+#include <bits/stdc++.h>
+using namespace std;
+
+#include "graphics.h"
+#include "string.h"
 
 void bsp1_to_points(int degree, int L, float coeff[], float knot[], int dense, float points[]);
 float deboor(int degree, float coeff[], float knot[], float u, int i);
