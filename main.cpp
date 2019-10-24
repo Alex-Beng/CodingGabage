@@ -108,13 +108,6 @@ int TestAss2() {
 	pnts.push_back(point(100, 0));
 	// EdgeFill(pnts);
 
-	pnts[0] = point(50, 50);
-	pnts[1] = point(80, 100);
-	pnts[2] = point(0, 120);
-	EdgeFill(pnts);
-
-	getch();
-	setbkcolor(WHITE);
 
 	// pnts.resize(5);
 	pnts[0] = point(200, 0);
@@ -122,6 +115,9 @@ int TestAss2() {
 	pnts[2] = point(400, 300);
 	pnts.push_back(point(300, 60));
 	pnts.push_back(point(200, 120));
+	
+	SeedFill(pnts, point(300, 10), EGERGB(0xff, 0xff, 0));
+	getch();
 	EdgeFill(pnts);
 
 	getch();	

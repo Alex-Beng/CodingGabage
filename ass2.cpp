@@ -1,9 +1,16 @@
+#include "ass1.h"
 #include "ass2.h"
 
+int delta[][2] = {
+    0, 1,
+    0, -1,
+    1, 0,
+    -1, 0,
+};
 
 void EdgeFill(std::vector<point> points) {
     int line_nums = points.size();
-    cout<<line_nums<<endl;
+    // cout<<line_nums<<endl;
 
     int minx = 999;
     int maxx = -1;
@@ -102,5 +109,42 @@ void EdgeFill(std::vector<point> points) {
             }
         }
         // getch();
+    }
+}
+
+
+
+void SeedFill(std::vector<point> points, point seed, int color) {
+    // 绘制边界
+    int line_nums = points.size();
+    for (int i=0; i<line_nums; i++) {
+        int x0 = points[i].x;
+        int y0 = points[i].y;
+        int x1 = points[(i+1)%line_nums].x;
+        int y1 = points[(i+1)%line_nums].y;
+        cout<<x0<<' '<<y0<<' '<<x1<<' '<<y1<<endl;
+
+        MidPntLine(x0, y0, x1, y1, color, 1, LINE_SHAPE_NONE);
+        // getch();
+    }
+    std::stack<point> sk;
+    sk.push(seed);
+
+    while (!sk.empty()) {
+        point t = sk.top();
+        sk.pop();
+        // cout<<t.x<<t.y;
+        putpixel(t.x, t.y, color);
+        // getch();
+        for (int i=0; i<4; i++) {
+            int x = t.x+delta[i][0];
+            int y = t.y+delta[i][1];
+            if (getpixel(x, y) == color) { // 边界点不要管
+                continue ;
+            }
+            else if (getpixel(x, y) == WHITE) {
+                sk.push(point(x, y));
+            }
+        }
     }
 }

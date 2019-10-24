@@ -15,7 +15,10 @@ struct point {
 };
 
 
+
+
 void EdgeFill(std::vector<point> points);
 
+void SeedFill(std::vector<point> points, point seed, int color);
 
 #endif
