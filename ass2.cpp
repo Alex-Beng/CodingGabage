@@ -33,7 +33,7 @@ void EdgeFill(std::vector<point> points) {
         int y0 = points[i].y;
         int x1 = points[(i+1)%line_nums].x;
         int y1 = points[(i+1)%line_nums].y;
-        cout<<x0<<' '<<y0<<' '<<x1<<' '<<y1<<endl;
+        // cout<<x0<<' '<<y0<<' '<<x1<<' '<<y1<<endl;
 
         int dx = x1-x0;
         int dy = y1-y0;
@@ -44,7 +44,7 @@ void EdgeFill(std::vector<point> points) {
                 swap(x0, x1);
                 swap(y0, y1);
             }
-            for (int y=y0; y<=y1; y++) {
+            for (int y=y0; y<y1; y++) {
                 for (int x=x0; x<maxx; x++) {
                     putpixel(x, y, 0xffffff-getpixel(x, y));
                 }
@@ -61,11 +61,14 @@ void EdgeFill(std::vector<point> points) {
 
             float x = x0;
             for (int y=y0; y<=y1; y++) {
-                for (int t=int(x+0.5); t<=maxx; t++) {
+                for (int t=int(x+0.5); t<maxx; t++) {
                     putpixel(t, y, 0xffffff-getpixel(t, y));
                 }
                 x += k;
                 // getch();
+            }
+            for (int t=x1; t<maxx; t++) {
+                putpixel(t, y1, 0xffffff-getpixel(t, y1));
             }
         }
         else {
@@ -76,14 +79,28 @@ void EdgeFill(std::vector<point> points) {
                 swap(y0, y1);
             }
 
+            std::map<int, int> map_for_fill;
             float y = y0;
             for (int x=x0; x<=x1; x++) {
-                for (int t=int(y+0.5); t<=maxy; t++) {
-                    putpixel(x, t, 0xffffff-getpixel(x, t));
-                }
+                map_for_fill[int(y+0.5)] = x;
+                // for (int t=int(y+0.5); t<=maxy; t++) {
+                //     // putpixel(x, t, 0xffffff-getpixel(x, t));
+                //     map_for_fill[y] = x;
+                // }
                 y += k;
             }
+
+            if (y0 > y1) {
+                swap(x0, x1);
+                swap(y0, y1);
+            }
+            for (int t_y=y0; t_y<y1; t_y++) {
+                for (int t_x=map_for_fill[t_y]; t_x<maxx; t_x++) {
+                    putpixel(t_x, t_y, 0xffffff-getpixel(t_x, t_y));
+                }
+                // getch();
+            }
         }
-        getch();
+        // getch();
     }
 }
