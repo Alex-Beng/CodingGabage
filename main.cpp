@@ -1,12 +1,12 @@
 #include "ass1.h"
-
+#include "ass2.h"
 
 int TestAss1() {
 	int x0=0,y0=0,
-	x1=450,y1=450,color=EGERGB(0, 0xff, 0);		//�����(50,50)��(450,450)����ɫcolor
+	x1=450,y1=450,color=EGERGB(0, 0xff, 0);		//?????(50,50)??(450,450)?????color
 	int x,y;
-	int gdriver=DETECT, gmode;	//����ͼ�������������ʾģʽ
-	initgraph(640, 480, 0);	//ͼ�η�ʽ��ʼ��
+	int gdriver=DETECT, gmode;	//?????????????????????
+	initgraph(640, 480, 0);	//??��???????
 	cleardevice();
 
 	setbkcolor(WHITE);
@@ -84,21 +84,54 @@ int TestAss1() {
 	BreshamLine(x0, y0, x1, y1, EGERGB(0, 0, 0xff), 3, LINE_SHAPE_CHAIN);
 	getch();
 	
-	// cleardevice();					//����
+	// cleardevice();					//????
 	// circle(320, 240, 100);
 	// y=y0;
 	// for(x=x0;x<=x1;x++)
 	//    {
-	// 	  putpixel(x,y,color);		//��colo��ɫ���Ƶ�(x,y)
+	// 	  putpixel(x,y,color);		//??colo????????(x,y)
 	// 	  y=y+1;
 	//    }
-	getch();						//�û���ͣס, �Ȱ�һ�¼����ټ���
-	closegraph(); 					//�ر�ͼ�η�ʽ
+	getch();						//???????, ??????????????
+	closegraph(); 					//?????��??
 	return 0;
 }
 
+int TestAss2() {
+	initgraph(640, 480, 0);	
+	cleardevice();
+	setbkcolor(WHITE);
+
+	std::vector<point> pnts;
+	pnts.push_back(point(0, 0));
+	pnts.push_back(point(0, 100));
+	pnts.push_back(point(100, 0));
+	// EdgeFill(pnts);
+
+	pnts[0] = point(50, 50);
+	pnts[1] = point(80, 100);
+	pnts[2] = point(0, 120);
+	EdgeFill(pnts);
+
+	getch();
+	setbkcolor(WHITE);
+
+	// pnts.resize(5);
+	pnts[0] = point(200, 0);
+	pnts[1] = point(400, 0);
+	pnts[2] = point(400, 300);
+	pnts.push_back(point(300, 150));
+	pnts.push_back(point(200, 120));
+	EdgeFill(pnts);
+
+	getch();	
+	closegraph(); 
+	return 0;
+}
 
 int main(int argc, char const *argv[]) {
-	TestAss1();
+	// cout<<hex<<EGERGBA(0xff, 0xff, 0xff, 0);
+	// TestAss1();
+	TestAss2();
 	return 0;
 }
