@@ -122,7 +122,7 @@ void SeedFill(std::vector<point> points, point seed, int color) {
         int y0 = points[i].y;
         int x1 = points[(i+1)%line_nums].x;
         int y1 = points[(i+1)%line_nums].y;
-        cout<<x0<<' '<<y0<<' '<<x1<<' '<<y1<<endl;
+        // cout<<x0<<' '<<y0<<' '<<x1<<' '<<y1<<endl;
 
         MidPntLine(x0, y0, x1, y1, color, 1, LINE_SHAPE_NONE);
         // getch();
@@ -147,4 +147,73 @@ void SeedFill(std::vector<point> points, point seed, int color) {
             }
         }
     }
+}
+
+int _PntEncoder(float x, float y, float XL, float XR, float YB, float YT) {
+    int ans = 0;
+    if (x<XL)
+        ans |= LEFT;
+    else if (x>XR)
+        ans |= RIGHT;
+    if (y<YB)
+        ans |= BOTTON;
+    else if (y>YT)
+        ans |= TOP;
+    return ans;
+}
+
+
+void CsLineCutter(float x1, float y1, float x2, float y2, float XL, float XR, float YB, float YT) {
+    MidPntLine(x1, y1, x2, y2, EGERGB(0xff, 0, 0), 1, LINE_SHAPE_NONE);
+    getch();
+    int code1, code2, code;
+    float x, y;
+    code1 = _PntEncoder(x1, y1, XL, XR, YB, YT);
+    code2 = _PntEncoder(x2, y2, XL, XR, YB, YT);
+    while ((code1!=0) || (code2!=0)) {
+        // cout<<(bitset<6>)code1<<' '<<(bitset<6>)code2<<endl;
+        if ((code1&code2)!=0) {
+            return ;
+        }
+        code = code1;
+        if (code == 0) {
+            code = code2;
+        }
+        // cout<<(bitset<6>)code<<endl;
+        if ((LEFT&code)!=0) {
+            // cout<<"ya"<<endl;
+            x = XL;
+            y = y1+(y2-y1)*(XL-x1)/(x2-x1);
+        }
+        else if ((RIGHT&code)!=0) {
+            // cout<<"yay"<<endl;
+            x = XR;
+            y = y1+(y2-y1)*(XR-x1)/(x2-x1);
+        }
+        else if ((BOTTON&code)!=0) {
+            // cout<<"yayy"<<endl;
+            y = YB;
+            x = x1+(x2-x1)*(YB-y1)/(y2-y1);
+        }
+        else if ((TOP&code)!=0) {
+            // cout<<"yya"<<endl;
+            y = YT;
+            x = x1+(x2-x1)*(YT-y1)/(y2-y1);
+        }
+        // cout<<x<<' '<<y<<endl;
+
+        if (code == code1) {
+            x1 = x;
+            y1 = y;
+            code1 = _PntEncoder(x1, y1, XL, XR, YB, YT);
+            // cout<<1<<endl;
+        }
+        else {
+            x2 = x;
+            y2 = y;
+            code2 = _PntEncoder(x2, y2, XL, XR, YB, YT);
+            // cout<<2<<endl;
+        }
+    }
+    MidPntLine(x1, y1, x2, y2, EGERGB(0, 0xff, 0), 1, LINE_SHAPE_NONE);
 }

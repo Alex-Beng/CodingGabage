@@ -2,6 +2,8 @@
 using namespace std;
 
 int main(int argc, char const *argv[]) {
+    int a = 0;
+
     map<int, int> t;
     t[1] = 4;
     t[1] = 3;

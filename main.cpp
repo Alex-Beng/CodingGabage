@@ -121,6 +121,18 @@ int TestAss2() {
 	EdgeFill(pnts);
 
 	getch();	
+
+	// test cut
+	MidPntLine(0, 50, 150, 50, EGERGB(0, 0xff, 0), 1, LINE_SHAPE_NONE);
+	MidPntLine(0, 100, 150, 100, EGERGB(0, 0xff, 0), 1, LINE_SHAPE_NONE);
+	MidPntLine(50, 0, 50, 150, EGERGB(0, 0xff, 0), 1, LINE_SHAPE_NONE);
+	MidPntLine(100, 0, 100, 150, EGERGB(0, 0xff, 0), 1, LINE_SHAPE_NONE);
+
+	getch();
+
+	CsLineCutter(75, 25, 120, 99, 50, 100, 50, 100);
+	getch();
+
 	closegraph(); 
 	return 0;
 }
